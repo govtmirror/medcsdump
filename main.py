@@ -41,7 +41,7 @@ class HomeHandler(webapp2.RequestHandler):
 		self.response.headers['Content-Disposition'] = 'attachment; filename=studenttransreqs.csv'
 		writer = csv.writer(self.response.out)
 		for cs in cases:
-			logging.info("got a case")
+			
 
 
 		
@@ -49,60 +49,69 @@ class HomeHandler(webapp2.RequestHandler):
 			writer.writerow([
 				'caseType', 
 				'caseNum',
-				'caseID'#,
-				# 'caseSuffix',
-				# 'caseState',
+				'caseID',
+				'caseSuffix',
+				'caseState',
+				
+				'numberOfEmployees',
+				
+				'initNumOfIssues',
+				'docketDate',
+				'taDate',
+				'ratifyDate',
+				'amendableDate',
+				'newAmendableDate',
+				'closedDate',
+				'closurereason',
+				'agedCaseComment',
+				'scheduledDate',
+				'initAssignment',
+				'isAssigned',
+				'isProfferRequested',
+				'hasInitReport'#,
+				# 'yo'
+				# 'railVsAir'
 				# 'carriers',
 				# orgs,
 				# crafts,
-				# 'numberOfEmployees',
 				# nmbmembers,
-				# 'initNumOfIssues',
-				# 'docketDate',
-				# 'taDate',
-				# 'ratifyDate',
-				# 'amendableDate',
-				# 'newAmendableDate',
-				# 'closedDate',
-				# 'closurereason',
-				# 'agedCaseComment',
-				# 'scheduledDate',
-				# 'initAssignment',
-				# 'isAssigned',
-				# 'isProfferRequested',
-				# 'hasInitReport',
-				# 'yo'
-				# 'railVsAir'
 				])
 			for cs in cases:
-				writer.writerow([
-					cs.caseType,
-					cs.caseNum,
-					cs.caseID#,
-					# cs.caseSuffix,
-					# cs.caseState,
-					# 'carriers',
-					# orgs,
-					# crafts,
-					# cs.numberOfEmployees,
-					# nmbmembers,
-					# cs.initNumOfIssues,
-					# cs.docketDate,
-					# cs.taDate,
-					# cs.ratifyDate,
-					# cs.amendableDate,
-					# cs.newAmendableDate,
-					# cs.closedDate,
-					# cs.closurereason,
-					# cs.agedCaseComment,
-					# cs.scheduledDate,
-					# cs.initAssignment,
-					# cs.isAssigned,
-					# cs.isProfferRequested,
-					# cs.hasInitReport,
-					# 'yes'
-					# str(cs.railVsAir)
-					])
+				hasit = cs.hasInitReport.encode("utf-8")
+				logging.info("got a case " + hasit)
+				try:
+					writer.writerow([
+						cs.caseType,
+						cs.caseNum,
+						cs.caseID,
+						cs.caseSuffix,
+						cs.caseState,
+						
+						cs.numberOfEmployees,
+						
+						cs.initNumOfIssues,
+						cs.docketDate,
+						cs.taDate,
+						cs.ratifyDate,
+						cs.amendableDate,
+						cs.newAmendableDate,
+						cs.closedDate,
+						cs.closurereason,
+						cs.agedCaseComment,
+						cs.scheduledDate,
+						cs.initAssignment,
+						cs.isAssigned,
+						cs.isProfferRequested,
+						hasit
+						# 'yes'
+						# str(cs.railVsAir)
+						# 'carriers',
+						# orgs,
+						# crafts,
+						# nmbmembers,
+						])
+				except Exception:
+					logging.info("exception " + cs.caseID)
 
 
 
