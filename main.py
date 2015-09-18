@@ -38,16 +38,10 @@ class HomeHandler(webapp2.RequestHandler):
 		cases = qry.fetch()
 		logging.info("in homehandler")
 		self.response.headers['Content-Type'] = 'text/csv'
-		self.response.headers['Content-Disposition'] = 'attachment; filename=studenttransreqs.csv'
+		self.response.headers['Content-Disposition'] = 'attachment; filename=medcsdump2.csv'
 		writer = csv.writer(self.response.out)
-		for cs in cases:
-			
-
-
-		
-
-			writer.writerow([
-				'caseType', 
+		writer.writerow([
+				'caseType,', 
 				'caseNum',
 				'caseID',
 				'caseSuffix',
@@ -63,7 +57,7 @@ class HomeHandler(webapp2.RequestHandler):
 				'newAmendableDate',
 				'closedDate',
 				'closurereason',
-				'agedCaseComment',
+				# 'agedCaseComment',
 				'scheduledDate',
 				'initAssignment',
 				'isAssigned',
@@ -76,42 +70,44 @@ class HomeHandler(webapp2.RequestHandler):
 				# crafts,
 				# nmbmembers,
 				])
-			for cs in cases:
-				hasit = cs.hasInitReport.encode("utf-8")
-				logging.info("got a case " + hasit)
-				try:
-					writer.writerow([
-						cs.caseType,
-						cs.caseNum,
-						cs.caseID,
-						cs.caseSuffix,
-						cs.caseState,
-						
-						cs.numberOfEmployees,
-						
-						cs.initNumOfIssues,
-						cs.docketDate,
-						cs.taDate,
-						cs.ratifyDate,
-						cs.amendableDate,
-						cs.newAmendableDate,
-						cs.closedDate,
-						cs.closurereason,
-						cs.agedCaseComment,
-						cs.scheduledDate,
-						cs.initAssignment,
-						cs.isAssigned,
-						cs.isProfferRequested,
-						hasit
-						# 'yes'
-						# str(cs.railVsAir)
-						# 'carriers',
-						# orgs,
-						# crafts,
-						# nmbmembers,
-						])
-				except Exception:
-					logging.info("exception " + cs.caseID)
+		# textout = ""
+		logging.info("attempt 1")
+		for cs in cases:
+			# textout = 
+			
+			try:
+				writer.writerow([
+					cs.caseType,
+					cs.caseNum,
+					cs.caseID,
+					cs.caseSuffix,
+					cs.caseState,
+					
+					cs.numberOfEmployees,
+					
+					cs.initNumOfIssues,
+					cs.docketDate,
+					cs.taDate,
+					cs.ratifyDate,
+					cs.amendableDate,
+					cs.newAmendableDate,
+					cs.closedDate,
+					cs.closurereason,
+					# cs.agedCaseComment,
+					cs.scheduledDate,
+					cs.initAssignment,
+					cs.isAssigned,
+					cs.isProfferRequested,
+					cs.hasInitReport
+					# 'yes'
+					# str(cs.railVsAir)
+					# 'carriers',
+					# orgs,
+					# crafts,
+					# nmbmembers,
+					])
+			except Exception:
+				logging.info("exception " + cs.caseID)
 
 
 
