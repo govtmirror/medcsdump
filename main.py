@@ -38,7 +38,7 @@ class HomeHandler(webapp2.RequestHandler):
 		cases = qry.fetch()
 		logging.info("in homehandler")
 		self.response.headers['Content-Type'] = 'text/csv'
-		self.response.headers['Content-Disposition'] = 'attachment; filename=medcsdump2.csv'
+		self.response.headers['Content-Disposition'] = 'attachment; filename=medcsdump.csv'
 		writer = csv.writer(self.response.out)
 		writer.writerow([
 				'caseType,', 
@@ -62,13 +62,13 @@ class HomeHandler(webapp2.RequestHandler):
 				'initAssignment',
 				'isAssigned',
 				'isProfferRequested',
-				'hasInitReport'#,
-				# 'yo'
-				# 'railVsAir'
-				# 'carriers',
-				# orgs,
-				# crafts,
-				# nmbmembers,
+				'hasInitReport',
+
+				'railVsAir',
+				'carriers'
+				'orgs',
+				'crafts',
+				'nmbmembers'
 				])
 		# textout = ""
 		logging.info("attempt 1")
@@ -98,13 +98,13 @@ class HomeHandler(webapp2.RequestHandler):
 					cs.initAssignment,
 					cs.isAssigned,
 					cs.isProfferRequested,
-					cs.hasInitReport
-					# 'yes'
-					# str(cs.railVsAir)
-					# 'carriers',
-					# orgs,
-					# crafts,
-					# nmbmembers,
+					cs.hasInitReport,
+
+					cs.railVsAir,
+					str(cs.carriers),
+					str(cs.orgs),
+					str(cs.crafts),
+					str(cs.nmbmembers)
 					])
 			except Exception:
 				logging.info("exception " + cs.caseID)
