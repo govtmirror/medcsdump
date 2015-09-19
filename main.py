@@ -32,82 +32,123 @@ class MedCase(ndb.Model):
 	railVsAir = ndb.StringProperty()
 
 
+
+
 class HomeHandler(webapp2.RequestHandler):
 	def get(self):
 		qry = MedCase.query()
 		cases = qry.fetch()
 		logging.info("in homehandler")
 		self.response.headers['Content-Type'] = 'text/csv'
-		self.response.headers['Content-Disposition'] = 'attachment; filename=medcsdump.csv'
-		writer = csv.writer(self.response.out)
-		writer.writerow([
-				'caseType,', 
-				'caseNum',
-				'caseID',
-				'caseSuffix',
-				'caseState',
-				
-				'numberOfEmployees',
-				
-				'initNumOfIssues',
-				'docketDate',
-				'taDate',
-				'ratifyDate',
-				'amendableDate',
-				'newAmendableDate',
-				'closedDate',
-				'closurereason',
-				# 'agedCaseComment',
-				'scheduledDate',
-				'initAssignment',
-				'isAssigned',
-				'isProfferRequested',
-				'hasInitReport',
+		self.response.headers['Content-Disposition'] = 'attachment; filename=medcsdump19.csv'
 
-				'railVsAir',
-				'carriers'
-				'orgs',
-				'crafts',
-				'nmbmembers'
-				])
-		# textout = ""
+		modelKeys = ['caseType','caseNum','caseID','caseSuffix','caseState','numberOfEmployees','initNumOfIssues','docketDate','taDate','ratifyDate','amendableDate','newAmendableDate','closedDate','closurereason','scheduledDate','initAssignment','isAssigned','isProfferRequested','hasInitReport','railVsAir','carriersorgs','crafts','nmbmembers']
+
+		textstr = """caseType,caseNum,caseID,caseSuffix,caseState,numberOfEmployees,initNumOfIssues,docketDate,taDate,ratifyDate,amendableDate,newAmendableDate,closedDate,closurereason,scheduledDate,initAssignment,isAssigned,isProfferRequested,hasInitReport,railVsAir,carriersorgs,crafts,nmbmembers\n\r"""
+				
 		logging.info("attempt 1")
 		for cs in cases:
-			# textout = 
-			
-			try:
-				writer.writerow([
-					cs.caseType,
-					cs.caseNum,
-					cs.caseID,
-					cs.caseSuffix,
-					cs.caseState,
-					
-					cs.numberOfEmployees,
-					
-					cs.initNumOfIssues,
-					cs.docketDate,
-					cs.taDate,
-					cs.ratifyDate,
-					cs.amendableDate,
-					cs.newAmendableDate,
-					cs.closedDate,
-					cs.closurereason,
-					# cs.agedCaseComment,
-					cs.scheduledDate,
-					cs.initAssignment,
-					cs.isAssigned,
-					cs.isProfferRequested,
-					cs.hasInitReport,
+			csDict = cs.to_dict()
+			csKeys = csDict.keys()
+			logging.info("csDict = " + str(csKeys))
 
-					cs.railVsAir,
-					str(cs.carriers),
-					str(cs.orgs),
-					str(cs.crafts),
-					str(cs.nmbmembers)
-					])
-			except Exception:
-				logging.info("exception " + cs.caseID)
+			if 'caseType' in csKeys:
+				textstr = textstr + str(cs.caseType).replace(",", "") + ","
+			else:
+				textstr = textstr + ","
+
+			if 'caseNum' in csKeys:
+				textstr = textstr + str(cs.caseNum).replace(",", "") + ","
+			else:
+				textstr = textstr + ","
+			if 'caseID' in csKeys:
+				textstr = textstr + str(cs.caseID).replace(",", "") + ","
+			else:
+				textstr = textstr + ","
+			if 'caseSuffix' in csKeys:
+				textstr = textstr + str(cs.caseSuffix).replace(",", "") + ","
+			else:
+				textstr = textstr + ","
+			if 'caseState' in csKeys:
+				textstr = textstr + str(cs.caseState).replace(",", "") + ","
+			else:
+				textstr = textstr + ","
+			if 'numberOfEmployees' in csKeys:
+				textstr = textstr + str(cs.numberOfEmployees).replace(",", "") + ","
+			else:
+				textstr = textstr + ","
+			if 'initNumOfIssues' in csKeys:
+				textstr = textstr + str(cs.initNumOfIssues).replace(",", "") + ","
+			else:
+				textstr = textstr + ","
+			if 'docketDate' in csKeys:
+				textstr = textstr + str(cs.docketDate).replace(",", "") + ","
+			else:
+				textstr = textstr + ","
+			if 'taDate' in csKeys:
+				textstr = textstr + str(cs.taDate).replace(",", "") + ","
+			else:
+				textstr = textstr + ","
+			if 'ratifyDate' in csKeys:
+				textstr = textstr + str(cs.ratifyDate).replace(",", "") + ","
+			else:
+				textstr = textstr + ","
+			if 'amendableDate' in csKeys:
+				textstr = textstr + str(cs.amendableDate).replace(",", "") + ","
+			else:
+				textstr = textstr + ","
+			if 'newAmendableDate' in csKeys:
+				textstr = textstr + str(cs.newAmendableDate).replace(",", "") + ","
+			else:
+				textstr = textstr + ","
+			if 'closedDate' in csKeys:
+				textstr = textstr + str(cs.closedDate).replace(",", "") + ","
+			else:
+				textstr = textstr + ","
+			if 'closurereason' in csKeys:
+				textstr = textstr + str(cs.closurereason).replace(",", "") + ","
+			else:
+				textstr = textstr + ","
+			if 'scheduledDate' in csKeys:
+				textstr = textstr + str(cs.scheduledDate).replace(",", "") + ","
+			else:
+				textstr = textstr + ","
+			if 'initAssignment' in csKeys:
+				textstr = textstr + str(cs.initAssignment).replace(",", "") + ","
+			else:
+				textstr = textstr + ","
+			if 'isAssigned' in csKeys:
+				textstr = textstr + str(cs.isAssigned).replace(",", "") + ","
+			else:
+				textstr = textstr + ","
+			if 'isProfferRequested' in csKeys:
+				textstr = textstr + str(cs.isProfferRequested).replace(",", "") + ","
+			else:
+				textstr = textstr + ","
+			if 'hasInitReport' in csKeys:
+				textstr = textstr + str(cs.hasInitReport).replace(",", "") + ","
+			else:
+				textstr = textstr + ","
+			if 'railVsAir' in csKeys:
+				textstr = textstr + str(cs.railVsAir).replace(",", "") + ","
+			else:
+				textstr = textstr + ","
+			if 'carriersorgs' in csKeys:
+				textstr = textstr + str(cs.carriersorgs).replace(",", "") + ","
+			else:
+				textstr = textstr + ","
+			if 'crafts' in csKeys:
+				textstr = textstr + str(cs.crafts).replace(",", "").replace("&amp;", "and") + ","
+			else:
+				textstr = textstr + ","
+			if 'nmbmembers' in csKeys:
+				textstr = textstr + str(cs.nmbmembers).replace(",", "") + ","
+			else:
+				textstr = textstr 
+			
+			textstr = textstr + "\n\r"
+			
+		self.response.write(textstr)
 
 
 
