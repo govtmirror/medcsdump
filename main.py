@@ -40,11 +40,11 @@ class HomeHandler(webapp2.RequestHandler):
 		cases = qry.fetch()
 		logging.info("in homehandler")
 		self.response.headers['Content-Type'] = 'text/csv'
-		self.response.headers['Content-Disposition'] = 'attachment; filename=medcsdump19.csv'
+		self.response.headers['Content-Disposition'] = 'attachment; filename=medcsdump1.csv'
 
 		modelKeys = ['caseType','caseNum','caseID','caseSuffix','caseState','numberOfEmployees','initNumOfIssues','docketDate','taDate','ratifyDate','amendableDate','newAmendableDate','closedDate','closurereason','scheduledDate','initAssignment','isAssigned','isProfferRequested','hasInitReport','railVsAir','carriersorgs','crafts','nmbmembers']
 
-		textstr = """caseType,caseNum,caseID,caseSuffix,caseState,numberOfEmployees,initNumOfIssues,docketDate,taDate,ratifyDate,amendableDate,newAmendableDate,closedDate,closurereason,scheduledDate,initAssignment,isAssigned,isProfferRequested,hasInitReport,railVsAir,carriersorgs,crafts,nmbmembers\n\r"""
+		textstr = """caseType,caseNum,caseID,caseSuffix,caseState,numberOfEmployees,initNumOfIssues,docketDate,taDate,ratifyDate,amendableDate,newAmendableDate,closedDate,closurereason,scheduledDate,initAssignment,isAssigned,isProfferRequested,hasInitReport,railVsAir,carriers,orgs,crafts,nmbmembers\n\r"""
 				
 		logging.info("attempt 1")
 		for cs in cases:
@@ -133,19 +133,35 @@ class HomeHandler(webapp2.RequestHandler):
 				textstr = textstr + str(cs.railVsAir).replace(",", "") + ","
 			else:
 				textstr = textstr + ","
-			if 'carriersorgs' in csKeys:
-				textstr = textstr + str(cs.carriersorgs).replace(",", "") + ","
+			if 'carriers' in csKeys:
+				for m in cs.carriers:
+					textstr = textstr + str(m).replace(",", "") + "-"
+				textstr = textstr + ","
+			else:
+				textstr = textstr + ","
+			if 'orgs' in csKeys:
+				for m in cs.orgs:
+					textstr = textstr + str(m).replace(",", "") + "-"
+				textstr = textstr + ","
 			else:
 				textstr = textstr + ","
 			if 'crafts' in csKeys:
-				textstr = textstr + str(cs.crafts).replace(",", "").replace("&amp;", "and") + ","
+				for m in cs.crafts:
+					textstr = textstr + str(m).replace(",", "").replace("&amp;", "and") + "-"
+				textstr = textstr + ","
 			else:
 				textstr = textstr + ","
 			if 'nmbmembers' in csKeys:
-				textstr = textstr + str(cs.nmbmembers).replace(",", "") + ","
+				for m in cs.nmbmembers:
+					textstr = textstr + str(m).replace(",", "") + "-"
+				textstr = textstr + ","
 			else:
-				textstr = textstr 
-			
+				textstr = textstr + ","
+
+
+
+
+
 			textstr = textstr + "\n\r"
 			
 		self.response.write(textstr)
